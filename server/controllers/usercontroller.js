@@ -8,7 +8,7 @@ router.post("/register", async (req, res) => {
     const {username, password } = req.body;
 
     try {
-        const NewUser = await User.create({
+        const NewUser = await UserModel.create({
                 username,
                 password: bcrypt.hashSync(password, 13)
         })
@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     
     try {
-        const LoggedInUser = await User.findOne({
+        const LoggedInUser = await UserModel.findOne({
             where: {
                 username: username
             } 
