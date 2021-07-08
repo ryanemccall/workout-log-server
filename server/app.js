@@ -5,6 +5,7 @@ const dbConnection = require("./db");
 const controllers = require("./controllers");
 
 app.use("/workout", controllers.workoutcontroller);
+app.use("/user", controllers.usercontroller);
 
 dbConnection.authenticate()
 .then(() => dbConnection.sync())
