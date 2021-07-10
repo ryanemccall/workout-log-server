@@ -8,7 +8,7 @@ const validateSession = require('../middleware/validate-session');
 // });
 
 //Log a Workout
-router.post("/log/", validateSession, async (req, res) => {
+router.post("/create", validateSession, async (req, res) => {
     const { description, definition, result } = req.body.workout;
     const { id } = req.user;
     const workoutEntry = {
@@ -26,10 +26,10 @@ router.post("/log/", validateSession, async (req, res) => {
 });
 
 //Get All Workout Logs for a User
-router.get("/log/", validateSession, async (req, res) => {
+router.get("/", validateSession, async (req, res) => {
     try {
         const entries = await Workout.findAll({
-            where: { user_id: req.user.id },
+            where: { owner_id: req.user.id },
         });
         res.status(200).json({ entries })
     } catch (err) {
@@ -40,7 +40,7 @@ router.get("/log/", validateSession, async (req, res) => {
 });
 
 // Get Workout by ID for a User
-router.get("/log/:id", validateSession, async (req, res) => {
+router.get("/:id", validateSession, async (req, res) => {
     try {
         const getEntry = await Workout.findOne({
             where: {
@@ -58,7 +58,7 @@ router.get("/log/:id", validateSession, async (req, res) => {
 
 // Update an indivudal Log for a USER
 
-router.put("/log/:id", validateSession, async (req, res) => {
+router.put("/:id", validateSession, async (req, res) => {
     const { description, definition, result } = req.body.workout;
     const query = {
         where: {
@@ -86,7 +86,7 @@ router.put("/log/:id", validateSession, async (req, res) => {
 })
 
 // Delete an Individual Log for a USER
-router.delete("/log/:id", validateSession, async (req, res) => {
+router.delete("/:id", validateSession, async (req, res) => {
     const owner = req.user.id;
     const workoutId = req.params.id;
 
